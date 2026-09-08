@@ -1,0 +1,32 @@
+{
+  "id": "./",
+  "name": "LIBVENTORY | Inventaris Perpustakaan",
+  "short_name": "LIBVENTORY",
+  "description": "Sistem Inventaris Ruangan Perpustakaan oleh LiteraTech Duo",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#0B1120",
+  "theme_color": "#2563EB",
+  "orientation": "portrait-primary",
+  "lang": "id-ID",
+  "categories": [
+    "productivity",
+    "education",
+    "business"
+  ],
+  "icons": [
+    {
+      "src": "icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
