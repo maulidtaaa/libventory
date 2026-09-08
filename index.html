@@ -1,0 +1,1585 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>LIBVENTORY | Inventaris Perpustakaan</title>
+
+    <meta
+      name="description"
+      content="LIBVENTORY - Sistem Inventaris Ruangan Perpustakaan"
+    />
+
+    <meta name="theme-color" content="#0B1120" />
+
+    <link rel="manifest" href="./manifest.json" />
+    <link rel="stylesheet" href="./style.css" />
+
+    <link rel="icon" href="icon-192.png?v=6" type="image/png" sizes="192x192" />
+    <link rel="shortcut icon" href="icon-192.png?v=6" type="image/png" />
+    <link rel="apple-touch-icon" href="icon-192.png?v=6" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-title" content="LIBVENTORY" />
+  </head>
+
+  <body>
+    <!-- =========================================================
+       SPLASH SCREEN
+  ========================================================== -->
+
+    <section id="splashScreen" class="splash-screen">
+      <div class="splash-card">
+        <div class="app-logo large">
+          <img src="icon-192.png?v=6" alt="LIBVENTORY" />
+        </div>
+
+        <p class="eyebrow">PWA INVENTARIS</p>
+
+        <h1>LIBVENTORY</h1>
+
+        <p class="splash-subtitle">Sistem Inventaris Ruangan Perpustakaan</p>
+
+        <div class="splash-divider"></div>
+
+        <p class="creator">
+          <strong>LiteraTech Duo</strong><br />
+          Maulidta &amp; Silvi
+        </p>
+
+        <div class="loader">
+          <span></span>
+        </div>
+
+        <small> Menyiapkan aplikasi... </small>
+      </div>
+    </section>
+
+    <!-- =========================================================
+       APP
+  ========================================================== -->
+
+    <div id="app" class="app hidden">
+      <!-- =======================================================
+         SIDEBAR
+    ======================================================== -->
+
+      <aside id="sidebar" class="sidebar">
+        <div class="sidebar-brand">
+          <div class="app-logo">
+            <img src="icon-192.png?v=6" alt="LIBVENTORY" />
+          </div>
+
+          <div>
+            <strong>LIBVENTORY</strong>
+            <small>Inventory System</small>
+          </div>
+        </div>
+
+        <nav class="sidebar-nav">
+          <button class="nav-item active" data-section="dashboardSection">
+            <span class="nav-icon">⌂</span>
+            <span class="side-label">Dashboard</span>
+          </button>
+
+          <button class="nav-item" data-section="inventorySection">
+            <span class="nav-icon">▦</span>
+            <span class="side-label">Inventaris</span>
+          </button>
+
+          <button class="nav-item" data-section="statisticsSection">
+            <span class="nav-icon">◒</span>
+            <span class="side-label">Statistik</span>
+          </button>
+
+          <button class="nav-item" data-section="backupSection">
+            <span class="nav-icon">⇅</span>
+            <span class="side-label">Backup & Data</span>
+          </button>
+
+          <button class="nav-item" id="sideThemeBtn">
+            <span class="nav-icon">◐</span>
+            <span class="side-label">Mode Tampilan</span>
+          </button>
+        </nav>
+
+        <div class="sidebar-footer">
+          <div class="mini-profile">
+            <div class="profile-avatar">LT</div>
+
+            <div>
+              <strong>LiteraTech Duo</strong>
+              <small>Administrator</small>
+            </div>
+          </div>
+        </div>
+      </aside>
+
+      <!-- =======================================================
+         MAIN CONTENT
+    ======================================================== -->
+
+      <main class="content">
+        <!-- HEADER -->
+
+        <header class="top-header">
+          <div class="header-left">
+            <button
+              id="mobileMenuBtn"
+              class="mobile-menu-btn mobile-only"
+              aria-label="Buka menu"
+            >
+              ☰
+            </button>
+
+            <div class="header-logo app-logo">
+              <img src="icon-192.png?v=6" alt="LIBVENTORY" />
+            </div>
+
+            <div>
+              <strong>LIBVENTORY</strong>
+              <small>Sistem Inventaris Perpustakaan</small>
+            </div>
+          </div>
+
+          <div class="header-actions">
+            <span id="onlineStatus" class="status-online"> ● Online </span>
+
+            <button id="installBtn" class="header-btn install-btn hidden">
+              ⬇ Install
+            </button>
+
+            <button
+              id="themeBtn"
+              class="header-icon-btn"
+              aria-label="Ubah tema"
+            >
+              ☾
+            </button>
+          </div>
+        </header>
+
+        <!-- =====================================================
+           DASHBOARD
+      ====================================================== -->
+
+        <section id="dashboardSection" class="page-section active-section">
+          <div class="page-heading">
+            <div>
+              <p class="eyebrow">OVERVIEW</p>
+
+              <h1 class="page-title">Dashboard</h1>
+
+              <p class="page-subtitle">
+                Pantau kondisi dan jumlah inventaris perpustakaan.
+              </p>
+            </div>
+
+            <button class="primary-btn" id="openFormBtn">
+              + Tambah Inventaris
+            </button>
+          </div>
+
+          <!-- STAT CARDS -->
+
+          <div class="dashboard-grid">
+            <article class="stat-card stat-total">
+              <div class="stat-icon">▦</div>
+
+              <div>
+                <span>Total Inventaris</span>
+                <strong id="totalItems">0</strong>
+                <small>unit barang</small>
+              </div>
+            </article>
+
+            <article class="stat-card stat-good">
+              <div class="stat-icon">✓</div>
+
+              <div>
+                <span>Kondisi Baik</span>
+                <strong id="goodItems">0</strong>
+                <small>unit barang</small>
+              </div>
+            </article>
+
+            <article class="stat-card stat-minor">
+              <div class="stat-icon">!</div>
+
+              <div>
+                <span>Rusak Ringan</span>
+                <strong id="minorItems">0</strong>
+                <small>unit barang</small>
+              </div>
+            </article>
+
+            <article class="stat-card stat-major">
+              <div class="stat-icon">×</div>
+
+              <div>
+                <span>Rusak Berat</span>
+                <strong id="majorItems">0</strong>
+                <small>unit barang</small>
+              </div>
+            </article>
+          </div>
+
+          <!-- ASSET VALUE -->
+
+          <div class="info-banner">
+            <div class="info-banner-icon">Rp</div>
+
+            <div>
+              <span>Total Nilai Aset</span>
+
+              <strong id="dashboardAssetValue"> Rp0 </strong>
+
+              <small> Berdasarkan harga satuan inventaris. </small>
+            </div>
+          </div>
+
+          <!-- DASHBOARD CONTENT -->
+
+          <div class="two-column-grid">
+            <div class="panel">
+              <div class="panel-heading">
+                <div>
+                  <span class="panel-kicker"> INVENTARIS </span>
+
+                  <h2>Data Terbaru</h2>
+                </div>
+
+                <button class="text-btn" data-section-target="inventorySection">
+                  Lihat Semua
+                </button>
+              </div>
+
+              <div id="recentItems" class="recent-list"></div>
+            </div>
+
+            <div class="panel">
+              <div class="panel-heading">
+                <div>
+                  <span class="panel-kicker"> KONDISI </span>
+
+                  <h2>Ringkasan Kondisi</h2>
+                </div>
+              </div>
+
+              <div class="chart-area small-chart">
+                <div id="dashboardDonut" class="donut-chart">
+                  <div class="donut-center">
+                    <strong id="dashboardChartTotal"> 0 </strong>
+
+                    <span>unit</span>
+                  </div>
+                </div>
+
+                <div id="dashboardLegend" class="chart-legend"></div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- =====================================================
+           INVENTORY
+      ====================================================== -->
+
+        <section id="inventorySection" class="page-section">
+          <div class="page-heading">
+            <div>
+              <p class="eyebrow">DATABASE</p>
+
+              <h1 class="page-title">Inventaris</h1>
+
+              <p class="page-subtitle">
+                Kelola seluruh data barang perpustakaan.
+              </p>
+            </div>
+
+            <button class="primary-btn" id="inventoryTopAddBtn">
+              + Tambah Inventaris
+            </button>
+          </div>
+
+          <!-- FORM -->
+
+          <div id="formPanel" class="panel form-panel hidden">
+            <div class="panel-heading">
+              <div>
+                <span class="panel-kicker"> DATA BARANG </span>
+
+                <h2 id="formTitle">Tambah Inventaris</h2>
+              </div>
+
+              <button class="close-panel-btn" id="cancelEditBtn" type="button">
+                ×
+              </button>
+            </div>
+
+            <form id="inventoryForm">
+              <div class="form-grid">
+                <div class="form-group">
+                  <label for="itemName"> Nama Barang </label>
+
+                  <input
+                    id="itemName"
+                    type="text"
+                    placeholder="Contoh: Meja Baca"
+                    required
+                  />
+                </div>
+
+                <div class="form-group">
+                  <label for="inventoryCode"> Kode Inventaris </label>
+
+                  <input
+                    id="inventoryCode"
+                    type="text"
+                    placeholder="Contoh: LIB-001"
+                    required
+                  />
+                </div>
+
+                <div class="form-group">
+                  <label for="category"> Kategori </label>
+
+                  <select id="category" required>
+                    <option value="">Pilih kategori</option>
+
+                    <option value="Furniture">Furniture</option>
+
+                    <option value="Elektronik">Elektronik</option>
+
+                    <option value="Buku">Buku</option>
+
+                    <option value="Peralatan">Peralatan</option>
+
+                    <option value="ATK">ATK</option>
+
+                    <option value="Keamanan">Keamanan</option>
+
+                    <option value="Lainnya">Lainnya</option>
+                  </select>
+                </div>
+
+                <div class="form-group">
+                  <label for="roomName"> Nama Ruangan </label>
+
+                  <input
+                    id="roomName"
+                    type="text"
+                    value="Perpustakaan"
+                    required
+                  />
+                </div>
+
+                <div class="form-group">
+                  <label for="location"> Lokasi / Rak </label>
+
+                  <input
+                    id="location"
+                    type="text"
+                    placeholder="Contoh: Rak A-01"
+                  />
+                </div>
+
+                <div class="form-group">
+                  <label for="quantity"> Jumlah </label>
+
+                  <input
+                    id="quantity"
+                    type="number"
+                    min="1"
+                    step="1"
+                    placeholder="Contoh: 10"
+                    required
+                  />
+                </div>
+
+                <div class="form-group">
+                  <label for="condition"> Kondisi </label>
+
+                  <select id="condition" required>
+                    <option value="">Pilih kondisi</option>
+
+                    <option value="Baik">Baik</option>
+
+                    <option value="Rusak Ringan">Rusak Ringan</option>
+
+                    <option value="Rusak Berat">Rusak Berat</option>
+                  </select>
+                </div>
+
+                <div class="form-group">
+                  <label for="unitPrice"> Harga Satuan </label>
+
+                  <input
+                    id="unitPrice"
+                    type="number"
+                    min="0"
+                    step="1000"
+                    placeholder="Contoh: 150000"
+                  />
+                </div>
+
+                <div class="form-group">
+                  <label for="purchaseDate"> Tanggal Pembelian </label>
+
+                  <input id="purchaseDate" type="date" />
+                </div>
+
+                <div class="form-group">
+                  <label for="responsible"> Penanggung Jawab </label>
+
+                  <input
+                    id="responsible"
+                    type="text"
+                    placeholder="Contoh: Petugas Perpustakaan"
+                  />
+                </div>
+
+                <div class="form-group full-width">
+                  <label for="itemNotes"> Catatan </label>
+
+                  <textarea
+                    id="itemNotes"
+                    rows="3"
+                    placeholder="Tambahkan catatan jika diperlukan..."
+                  ></textarea>
+                </div>
+              </div>
+
+              <div class="form-summary">
+                <div>
+                  <span>Estimasi Total Nilai</span>
+
+                  <strong id="formTotalValue"> Rp0 </strong>
+                </div>
+              </div>
+
+              <div class="form-actions">
+                <button
+                  type="button"
+                  class="secondary-btn"
+                  id="cancelEditBtnBottom"
+                >
+                  Batal
+                </button>
+
+                <button type="submit" class="primary-btn" id="submitBtn">
+                  Simpan Inventaris
+                </button>
+              </div>
+            </form>
+          </div>
+
+          <!-- FILTER -->
+
+          <div class="panel filter-panel">
+            <div class="filter-row">
+              <div class="search-box">
+                <span> ⌕ </span>
+
+                <input
+                  id="searchInput"
+                  type="search"
+                  placeholder="Cari nama barang atau kode inventaris..."
+                />
+              </div>
+
+              <select id="roomFilter">
+                <option value="all">Semua Ruangan</option>
+              </select>
+
+              <select id="categoryFilter">
+                <option value="all">Semua Kategori</option>
+              </select>
+
+              <select id="conditionFilter">
+                <option value="all">Semua Kondisi</option>
+
+                <option value="Baik">Baik</option>
+
+                <option value="Rusak Ringan">Rusak Ringan</option>
+
+                <option value="Rusak Berat">Rusak Berat</option>
+              </select>
+
+              <select id="sortFilter">
+                <option value="newest">Terbaru</option>
+
+                <option value="oldest">Terlama</option>
+
+                <option value="name">Nama A-Z</option>
+
+                <option value="code">Kode A-Z</option>
+
+                <option value="quantity-high">Jumlah Terbanyak</option>
+
+                <option value="value-high">Nilai Aset Terbesar</option>
+              </select>
+
+              <button id="resetFilterBtn" class="secondary-btn">Reset</button>
+            </div>
+          </div>
+
+          <!-- INVENTORY TABLE -->
+
+          <div id="inventoryTableWrap" class="panel table-panel">
+            <div class="table-header">
+              <div>
+                <span class="panel-kicker"> INVENTORY TABLE </span>
+
+                <h2>Daftar Inventaris</h2>
+              </div>
+
+              <span id="tableCount" class="table-count"> 0 data </span>
+            </div>
+
+            <div class="table-scroll">
+              <table>
+                <thead>
+                  <tr>
+                    <th>No</th>
+                    <th>Barang</th>
+                    <th>Kode</th>
+                    <th>Kategori</th>
+                    <th>Ruangan</th>
+                    <th>Lokasi</th>
+                    <th>Jumlah</th>
+                    <th>Kondisi</th>
+                    <th>Nilai Aset</th>
+                    <th>Aksi</th>
+                  </tr>
+                </thead>
+
+                <tbody id="inventoryBody"></tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- EMPTY -->
+
+          <div id="emptyState" class="empty-state panel hidden">
+            <div class="empty-icon">▦</div>
+
+            <h3>Belum ada inventaris</h3>
+
+            <p>Tambahkan data barang untuk mulai mengelola inventaris.</p>
+
+            <button class="primary-btn" id="emptyAddBtn">
+              + Tambah Inventaris
+            </button>
+          </div>
+        </section>
+
+        <!-- =====================================================
+           STATISTICS
+      ====================================================== -->
+
+        <section id="statisticsSection" class="page-section">
+          <div class="page-heading">
+            <div>
+              <p class="eyebrow">ANALYTICS</p>
+
+              <h1 class="page-title">Statistik</h1>
+
+              <p class="page-subtitle">
+                Analisis kondisi, kategori, ruangan, dan nilai inventaris.
+              </p>
+            </div>
+          </div>
+
+          <div class="statistics-grid">
+            <div class="panel">
+              <div class="panel-heading">
+                <div>
+                  <span class="panel-kicker"> KONDISI </span>
+
+                  <h2>Kondisi Barang</h2>
+                </div>
+              </div>
+
+              <div class="chart-area">
+                <div id="donutChart" class="donut-chart">
+                  <div class="donut-center">
+                    <strong id="chartTotal"> 0 </strong>
+
+                    <span> unit </span>
+                  </div>
+                </div>
+
+                <div id="chartLegend" class="chart-legend"></div>
+              </div>
+            </div>
+
+            <div class="panel">
+              <div class="panel-heading">
+                <div>
+                  <span class="panel-kicker"> KATEGORI </span>
+
+                  <h2>Berdasarkan Kategori</h2>
+                </div>
+              </div>
+
+              <div id="categoryStats" class="room-stats"></div>
+            </div>
+          </div>
+
+          <div class="panel">
+            <div class="panel-heading">
+              <div>
+                <span class="panel-kicker"> RUANGAN </span>
+
+                <h2>Distribusi Inventaris</h2>
+              </div>
+            </div>
+
+            <div id="roomStats" class="room-stats"></div>
+          </div>
+
+          <div class="statistics-summary">
+            <div class="panel summary-card">
+              <span> Total Nilai Aset </span>
+
+              <strong id="statisticsAssetValue"> Rp0 </strong>
+            </div>
+
+            <div class="panel summary-card">
+              <span> Jumlah Jenis Barang </span>
+
+              <strong id="uniqueItemCount"> 0 </strong>
+            </div>
+
+            <div class="panel summary-card">
+              <span> Jumlah Kategori </span>
+
+              <strong id="uniqueCategoryCount"> 0 </strong>
+            </div>
+          </div>
+        </section>
+
+        <!-- =====================================================
+           BACKUP
+      ====================================================== -->
+
+        <section id="backupSection" class="page-section">
+          <div class="page-heading">
+            <div>
+              <p class="eyebrow">DATA MANAGEMENT</p>
+
+              <h1 class="page-title">Backup & Data</h1>
+
+              <p class="page-subtitle">
+                Simpan, pulihkan, dan kelola data LIBVENTORY.
+              </p>
+            </div>
+          </div>
+
+          <div class="backup-grid">
+            <div class="panel backup-panel">
+              <div class="backup-icon">⇩</div>
+
+              <h2>Export Data</h2>
+
+              <p>Simpan seluruh data inventaris menjadi file JSON.</p>
+
+              <button id="backupBtn" class="primary-btn">Export JSON</button>
+            </div>
+
+            <div class="panel backup-panel">
+              <div class="backup-icon">⇧</div>
+
+              <h2>Import Data</h2>
+
+              <p>Masukkan kembali data inventaris dari file JSON.</p>
+
+              <button id="importBtn" class="secondary-btn">Import JSON</button>
+
+              <input
+                id="importFile"
+                type="file"
+                accept=".json,application/json"
+                hidden
+              />
+            </div>
+
+            <div class="panel backup-panel">
+              <div class="backup-icon">◫</div>
+
+              <h2>Backup Lokal</h2>
+
+              <p>Buat salinan data langsung di LocalStorage.</p>
+
+              <div class="backup-actions">
+                <button id="createLocalBackupBtn" class="primary-btn">
+                  Buat Backup
+                </button>
+
+                <button id="restoreLocalBackupBtn" class="secondary-btn">
+                  Pulihkan
+                </button>
+              </div>
+            </div>
+
+            <div class="panel backup-panel danger-panel">
+              <div class="backup-icon danger-icon">!</div>
+
+              <h2>Hapus Semua Data</h2>
+
+              <p>Menghapus seluruh data inventaris dari LocalStorage.</p>
+
+              <button id="clearBtn" class="danger-btn">Hapus Semua</button>
+            </div>
+          </div>
+
+          <div class="panel system-info">
+            <div class="system-info-row">
+              <span> Data tersimpan </span>
+
+              <strong id="storageCount"> 0 unit tersimpan </strong>
+            </div>
+
+            <div class="system-info-row">
+              <span> Backup lokal </span>
+
+              <strong id="localBackupStatus"> Belum tersedia </strong>
+            </div>
+
+            <div class="system-info-row">
+              <span> PWA Service Worker </span>
+
+              <strong id="pwaStatus"> Memeriksa... </strong>
+            </div>
+
+            <div class="system-info-row">
+              <span> Versi aplikasi </span>
+
+              <strong> 3.0 Enhanced </strong>
+            </div>
+          </div>
+        </section>
+
+        <!-- =========================================================
+   FOOTER LIBVENTORY
+========================================================= -->
+
+        <footer class="libventory-footer">
+          <!-- =======================================================
+       FOOTER CTA
+  ======================================================== -->
+
+          <section class="libventory-footer-cta">
+            <div class="footer-cta-content">
+              <span class="footer-eyebrow"> LIBVENTORY • PWA INVENTARIS </span>
+
+              <h2>
+                Kelola Inventaris Perpustakaan
+                <br />
+                Lebih Mudah &amp; Teratur.
+              </h2>
+
+              <p>
+                LIBVENTORY merupakan sistem inventaris digital yang dirancang
+                untuk membantu pencatatan, pemantauan kondisi, pengelolaan
+                barang, serta nilai aset perpustakaan secara praktis dan
+                terstruktur.
+              </p>
+            </div>
+
+            <div class="footer-cta-badge">
+              <div class="footer-badge-icon">
+                <img src="icon-192.png?v=6" alt="Logo LIBVENTORY" />
+              </div>
+
+              <div>
+                <strong>LiteraTech Duo</strong>
+
+                <small> Support &amp; Development Team </small>
+              </div>
+            </div>
+          </section>
+
+          <!-- =======================================================
+       FOOTER INFORMATION
+  ======================================================== -->
+
+          <section class="libventory-footer-main">
+            <!-- BRAND -->
+
+            <div class="footer-brand">
+              <div class="footer-brand-mark">
+                <img src="icon-192.png?v=6" alt="Logo LIBVENTORY" />
+              </div>
+
+              <h3>LIBVENTORY</h3>
+
+              <p>Sistem Inventaris Ruangan Perpustakaan.</p>
+
+              <p class="footer-school">
+                Proyek Rekayasa Perangkat Lunak
+
+                <br />
+
+                <strong> SMK Krian 1 Sidoarjo </strong>
+              </p>
+            </div>
+
+            <!-- PEMBUAT -->
+
+            <div class="footer-column">
+              <h4>PEMBUAT</h4>
+
+              <div class="footer-person">
+                <span class="person-number"> 01 </span>
+
+                <div>
+                  <strong> Maulidta Yuwanda Fronika </strong>
+
+                  <small> Rekayasa Perangkat Lunak </small>
+                </div>
+              </div>
+
+              <div class="footer-person">
+                <span class="person-number"> 02 </span>
+
+                <div>
+                  <strong> Luthfiana Silvi Mayasari </strong>
+
+                  <small> Rekayasa Perangkat Lunak </small>
+                </div>
+              </div>
+            </div>
+
+            <!-- INFORMASI APLIKASI -->
+
+            <div class="footer-column">
+              <h4>LIBVENTORY</h4>
+
+              <p>Dashboard Inventaris</p>
+
+              <p>Manajemen Data Barang</p>
+
+              <p>Statistik &amp; Nilai Aset</p>
+
+              <p>Backup &amp; Data</p>
+
+              <p>Progressive Web App</p>
+            </div>
+
+            <!-- SUPPORT -->
+
+            <div class="footer-column footer-support">
+              <h4>SUPPORT</h4>
+
+              <span class="support-title"> Support by </span>
+
+              <strong class="support-name"> LiteraTech Duo </strong>
+
+              <span class="support-line"></span>
+
+              <small>
+                Rekayasa Perangkat Lunak
+                <br />
+                SMK Krian 1 Sidoarjo
+              </small>
+            </div>
+          </section>
+
+          <!-- =======================================================
+       FOOTER BOTTOM
+  ======================================================== -->
+
+          <section class="libventory-footer-bottom">
+            <div class="footer-bottom-left">
+              <span> © 2026 LIBVENTORY </span>
+
+              <span class="footer-dot"> • </span>
+
+              <span> Sistem Inventaris Perpustakaan </span>
+            </div>
+
+            <div class="footer-bottom-right">
+              <span> Dibuat oleh </span>
+
+              <strong> LiteraTech Duo </strong>
+            </div>
+          </section>
+        </footer>
+
+        <!-- =========================================================
+   FOOTER RESPONSIVE STYLE
+========================================================= -->
+
+        <style>
+          /* =========================================================
+     FOOTER UTAMA
+  ========================================================== */
+
+          .libventory-footer {
+            width: 100%;
+            margin-top: 56px;
+            overflow: hidden;
+            color: #e2e8f0;
+            background: #020617;
+            border-top: 1px solid rgba(148, 163, 184, 0.18);
+          }
+
+          /* =========================================================
+     CTA FOOTER
+  ========================================================== */
+
+          .libventory-footer-cta {
+            width: 100%;
+            min-height: 270px;
+
+            padding: 58px clamp(24px, 6vw, 82px);
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            gap: 40px;
+
+            box-sizing: border-box;
+
+            background: radial-gradient(
+                circle at 82% 25%,
+                rgba(37, 99, 235, 0.34),
+                transparent 32%
+              ),
+              radial-gradient(
+                circle at 10% 90%,
+                rgba(6, 182, 212, 0.14),
+                transparent 28%
+              ),
+              linear-gradient(135deg, #020617 0%, #0b1120 50%, #0f172a 100%);
+
+            border-bottom: 1px solid rgba(148, 163, 184, 0.16);
+          }
+
+          .footer-cta-content {
+            width: 100%;
+            max-width: 720px;
+          }
+
+          .footer-eyebrow {
+            display: block;
+
+            margin-bottom: 14px;
+
+            color: #60a5fa;
+
+            font-size: 11px;
+            font-weight: 800;
+
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+          }
+
+          .footer-cta-content h2 {
+            margin: 0 0 16px;
+
+            color: #ffffff;
+
+            font-size: clamp(28px, 4vw, 44px);
+
+            line-height: 1.12;
+
+            letter-spacing: -0.04em;
+          }
+
+          .footer-cta-content p {
+            max-width: 680px;
+
+            margin: 0;
+
+            color: #cbd5e1;
+
+            font-size: 14px;
+
+            line-height: 1.8;
+          }
+
+          /* =========================================================
+     SUPPORT BADGE
+  ========================================================== */
+
+          .footer-cta-badge {
+            min-width: 260px;
+
+            padding: 18px 20px;
+
+            display: flex;
+            align-items: center;
+
+            gap: 14px;
+
+            box-sizing: border-box;
+
+            border: 1px solid rgba(96, 165, 250, 0.3);
+
+            border-radius: 18px;
+
+            background: rgba(255, 255, 255, 0.055);
+
+            box-shadow: 0 20px 45px rgba(0, 0, 0, 0.25),
+              inset 0 1px 0 rgba(255, 255, 255, 0.05);
+
+            backdrop-filter: blur(12px);
+          }
+
+          .footer-badge-icon {
+            width: 52px;
+            height: 52px;
+
+            flex: 0 0 52px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            padding: 4px;
+
+            box-sizing: border-box;
+
+            border-radius: 15px;
+
+            background: linear-gradient(135deg, #2563eb, #06b6d4);
+
+            box-shadow: 0 8px 22px rgba(37, 99, 235, 0.3);
+          }
+
+          .footer-badge-icon img {
+            width: 100%;
+            height: 100%;
+
+            object-fit: contain;
+
+            border-radius: 11px;
+          }
+
+          .footer-cta-badge strong {
+            display: block;
+
+            color: #ffffff;
+
+            font-size: 15px;
+          }
+
+          .footer-cta-badge small {
+            display: block;
+
+            margin-top: 5px;
+
+            color: #94a3b8;
+
+            font-size: 11px;
+          }
+
+          /* =========================================================
+     FOOTER MAIN
+  ========================================================== */
+
+          .libventory-footer-main {
+            width: 100%;
+
+            display: grid;
+
+            grid-template-columns:
+              1.45fr
+              1.25fr
+              1.1fr
+              1.1fr;
+
+            gap: 42px;
+
+            padding: 48px clamp(24px, 6vw, 82px);
+
+            box-sizing: border-box;
+
+            background: #e2e8f0;
+
+            color: #334155;
+          }
+
+          /* =========================================================
+     BRAND
+  ========================================================== */
+
+          .footer-brand-mark {
+            width: 72px;
+            height: 72px;
+
+            margin-bottom: 18px;
+
+            padding: 7px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            box-sizing: border-box;
+
+            border-radius: 50%;
+
+            background: #ffffff;
+
+            border: 2px solid #0f172a;
+
+            box-shadow: 0 8px 24px rgba(15, 23, 42, 0.14);
+          }
+
+          .footer-brand-mark img {
+            width: 100%;
+            height: 100%;
+
+            object-fit: contain;
+
+            border-radius: 50%;
+          }
+
+          .footer-brand h3 {
+            margin: 0 0 8px;
+
+            color: #0f172a;
+
+            font-size: 20px;
+
+            font-weight: 900;
+
+            letter-spacing: 0.05em;
+          }
+
+          .footer-brand p {
+            margin: 0 0 10px;
+
+            color: #475569;
+
+            font-size: 13px;
+
+            line-height: 1.65;
+          }
+
+          .footer-school {
+            margin-top: 18px !important;
+          }
+
+          .footer-school strong {
+            color: #0f172a;
+          }
+
+          /* =========================================================
+     FOOTER COLUMNS
+  ========================================================== */
+
+          .footer-column h4 {
+            margin: 3px 0 20px;
+
+            color: #0f172a;
+
+            font-size: 11px;
+            font-weight: 900;
+
+            letter-spacing: 0.16em;
+          }
+
+          .footer-column > p {
+            margin: 0 0 10px;
+
+            color: #475569;
+
+            font-size: 13px;
+
+            line-height: 1.6;
+          }
+
+          /* =========================================================
+     DATA PEMBUAT
+  ========================================================== */
+
+          .footer-person {
+            display: flex;
+
+            align-items: flex-start;
+
+            gap: 12px;
+
+            margin-bottom: 16px;
+          }
+
+          .person-number {
+            width: 30px;
+            height: 30px;
+
+            flex: 0 0 30px;
+
+            display: flex;
+
+            align-items: center;
+            justify-content: center;
+
+            border-radius: 9px;
+
+            color: #ffffff;
+
+            background: linear-gradient(135deg, #2563eb, #06b6d4);
+
+            font-size: 10px;
+
+            font-weight: 900;
+          }
+
+          .footer-person strong {
+            display: block;
+
+            color: #1e293b;
+
+            font-size: 13px;
+
+            line-height: 1.5;
+          }
+
+          .footer-person small {
+            display: block;
+
+            margin-top: 3px;
+
+            color: #64748b;
+
+            font-size: 10px;
+
+            line-height: 1.5;
+          }
+
+          /* =========================================================
+     SUPPORT
+  ========================================================== */
+
+          .footer-support {
+            padding-left: 18px;
+
+            border-left: 1px solid #cbd5e1;
+          }
+
+          .support-title {
+            display: block;
+
+            margin-bottom: 4px;
+
+            color: #64748b;
+
+            font-size: 12px;
+          }
+
+          .support-name {
+            display: block;
+
+            color: #0f172a;
+
+            font-size: 17px;
+
+            font-weight: 900;
+          }
+
+          .support-line {
+            display: block;
+
+            width: 48px;
+            height: 3px;
+
+            margin: 12px 0;
+
+            border-radius: 999px;
+
+            background: linear-gradient(90deg, #2563eb, #06b6d4);
+          }
+
+          .footer-support small {
+            color: #64748b;
+
+            font-size: 11px;
+
+            line-height: 1.7;
+          }
+
+          /* =========================================================
+     FOOTER BOTTOM
+  ========================================================== */
+
+          .libventory-footer-bottom {
+            width: 100%;
+
+            padding: 18px clamp(24px, 6vw, 82px);
+
+            display: flex;
+
+            align-items: center;
+            justify-content: space-between;
+
+            gap: 14px;
+
+            box-sizing: border-box;
+
+            background: #0f172a;
+
+            color: #94a3b8;
+
+            font-size: 11px;
+          }
+
+          .footer-bottom-left,
+          .footer-bottom-right {
+            display: flex;
+
+            align-items: center;
+
+            gap: 8px;
+
+            flex-wrap: wrap;
+          }
+
+          .footer-bottom-right strong {
+            color: #e0f2fe;
+          }
+
+          .footer-dot {
+            color: #2563eb;
+
+            font-weight: 900;
+          }
+
+          /* =========================================================
+     TABLET
+  ========================================================== */
+
+          @media (max-width: 1000px) {
+            .libventory-footer-cta {
+              align-items: flex-start;
+
+              flex-direction: column;
+            }
+
+            .footer-cta-badge {
+              width: 100%;
+
+              max-width: 380px;
+            }
+
+            .libventory-footer-main {
+              grid-template-columns: repeat(2, minmax(0, 1fr));
+
+              gap: 36px;
+            }
+
+            .footer-support {
+              padding-left: 0;
+
+              border-left: 0;
+            }
+          }
+
+          /* =========================================================
+     MOBILE
+  ========================================================== */
+
+          @media (max-width: 600px) {
+            .libventory-footer {
+              width: 100%;
+
+              margin-top: 36px;
+            }
+
+            .libventory-footer-cta {
+              min-height: auto;
+
+              padding: 40px 20px;
+
+              gap: 28px;
+            }
+
+            .footer-eyebrow {
+              font-size: 9px;
+
+              letter-spacing: 0.13em;
+            }
+
+            .footer-cta-content h2 {
+              margin-bottom: 14px;
+
+              font-size: 27px;
+
+              line-height: 1.18;
+            }
+
+            .footer-cta-content h2 br {
+              display: none;
+            }
+
+            .footer-cta-content p {
+              font-size: 13px;
+
+              line-height: 1.75;
+            }
+
+            .footer-cta-badge {
+              width: 100%;
+
+              min-width: 0;
+
+              max-width: none;
+
+              padding: 15px;
+
+              border-radius: 15px;
+            }
+
+            .footer-badge-icon {
+              width: 46px;
+              height: 46px;
+
+              flex-basis: 46px;
+            }
+
+            .libventory-footer-main {
+              width: 100%;
+
+              display: grid;
+
+              grid-template-columns: 1fr;
+
+              gap: 30px;
+
+              padding: 36px 20px;
+            }
+
+            .footer-brand-mark {
+              width: 64px;
+              height: 64px;
+
+              margin-bottom: 15px;
+            }
+
+            .footer-brand h3 {
+              font-size: 18px;
+            }
+
+            .footer-brand p,
+            .footer-column > p {
+              font-size: 12px;
+            }
+
+            .footer-column h4 {
+              margin-bottom: 16px;
+            }
+
+            .footer-person {
+              margin-bottom: 14px;
+            }
+
+            .footer-person strong {
+              font-size: 12px;
+            }
+
+            .footer-support {
+              padding: 20px;
+
+              border: 1px solid #cbd5e1;
+
+              border-radius: 14px;
+
+              background: rgba(255, 255, 255, 0.45);
+            }
+
+            .libventory-footer-bottom {
+              padding: 18px 20px;
+
+              flex-direction: column;
+
+              align-items: flex-start;
+
+              justify-content: flex-start;
+
+              font-size: 10px;
+
+              gap: 9px;
+            }
+
+            .footer-bottom-left,
+            .footer-bottom-right {
+              width: 100%;
+            }
+          }
+
+          /* =========================================================
+     EXTRA SMALL MOBILE
+  ========================================================== */
+
+          @media (max-width: 380px) {
+            .libventory-footer-cta {
+              padding: 34px 16px;
+            }
+
+            .libventory-footer-main {
+              padding: 32px 16px;
+            }
+
+            .libventory-footer-bottom {
+              padding: 17px 16px;
+            }
+
+            .footer-cta-content h2 {
+              font-size: 24px;
+            }
+
+            .footer-cta-content p {
+              font-size: 12px;
+            }
+
+            .footer-cta-badge {
+              padding: 13px;
+            }
+          }
+        </style>
+      </main>
+    </div>
+
+    <!-- =========================================================
+       DETAIL MODAL
+  ========================================================== -->
+
+    <div id="detailModal" class="modal hidden">
+      <div class="modal-backdrop" data-close-modal></div>
+
+      <div class="modal-card">
+        <div class="modal-header">
+          <div>
+            <span class="panel-kicker"> DETAIL INVENTARIS </span>
+
+            <h2 id="detailTitle">Detail Barang</h2>
+          </div>
+
+          <button class="modal-close" data-close-modal>×</button>
+        </div>
+
+        <div id="detailContent" class="detail-grid"></div>
+
+        <div class="modal-actions">
+          <button id="detailEditBtn" class="secondary-btn">Edit</button>
+
+          <button id="detailDeleteBtn" class="danger-btn">Hapus</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- =========================================================
+       TOAST
+  ========================================================== -->
+
+    <div id="toast" class="toast"></div>
+
+    <script src="./script.js"></script>
+  </body>
+</html>
